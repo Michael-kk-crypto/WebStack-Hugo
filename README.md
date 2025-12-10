@@ -68,7 +68,7 @@ WebStack 有非常多的魔改版本，这是其中一个。如果你对本主�
 
 ### 感谢
 
-本主题的部分代码参考了以下几个开源项目，特此感谢。
+本主题的部分代码参考了以下几个开源项目，特此感谢。 
 
 - [WebStackPage/WebStackPage.github.io](https://github.com/WebStackPage/WebStackPage.github.io)
 - [liutongxu/liutongxu.github.io](https://github.com/liutongxu/liutongxu.github.io)
