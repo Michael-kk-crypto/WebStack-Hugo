@@ -1,1 +1,30 @@
 
+name: deploy
+on:
+    push:
+        branches: [ main ]  # 如果你的主分支叫 master，这里就改成 master
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - [...](asc_slot://start-slot-32)name: Checkout
+              uses: actions/checkout@v2
+              with:
+                  submodules: true
+                  fetch-depth: 0
+
+            - [...](asc_slot://start-slot-34)name: Setup Hugo
+              uses: peaceiris/actions-hugo@v2
+              with:
+                  hugo-version: 'latest'
+
+            - [...](asc_slot://start-slot-36)name: Build
+              run: hugo --minify
+
+            - [...](asc_slot://start-slot-38)name: Deploy
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: ./public
