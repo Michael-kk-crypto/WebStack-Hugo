@@ -1,7 +1,7 @@
 baseURL = "https://michael-kk-crypto.github.io/WebStack-Hugo/"
 languageCode          = "zh-CN"
 title                 = "曼波导航"
-theme                 = "WebStack-Hugo"
+#theme                 = "WebStack-Hugo"
 preserveTaxonomyNames = true
 disablePathToLower    = true
 hasCJKLanguage        = true
