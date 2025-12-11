@@ -1,30 +1,46 @@
+name: Force Deploy
 
-name: deploy
 on:
-    push:
-        branches: [ main ]  # 如果你的主分支叫 master，这里就改成 master
-    workflow_dispatch:
+  # 监听代码提交
+  push:
+    branches:
+      - main
+      - master
+  # 允许你手动点击按钮触发（关键救命功能）
+  workflow_dispatch:
+
+# 强制申请权限（覆盖仓库设置）
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
-    build:
-        runs-on: ubuntu-latest
-        steps:
-            - [...](asc_slot://start-slot-32)name: Checkout
-              uses: actions/checkout@v2
-              with:
-                  submodules: true
-                  fetch-depth: 0
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+        with:
+          submodules: true  # 下载主题文件
+          fetch-depth: 0    #以此确保生成正确的更新时间
 
-            - [...](asc_slot://start-slot-34)name: Setup Hugo
-              uses: peaceiris/actions-hugo@v2
-              with:
-                  hugo-version: 'latest'
+      - name: Setup Hugo 🔧
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
+          extended: true
 
-            - [...](asc_slot://start-slot-36)name: Build
-              run: hugo --minify
+      - name: Build 🔨
+        run: hugo --minify
 
-            - [...](asc_slot://start-slot-38)name: Deploy
-              uses: peaceiris/actions-gh-pages@v3
-              with:
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
-                  publish_dir: ./public
+      - name: Deploy 🚀
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          # 强制推送到 gh-pages 分支，不管有没有
+          publish_branch: gh-pages
+          force_orphan: true 
